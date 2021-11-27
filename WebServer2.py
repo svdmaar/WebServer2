@@ -3,6 +3,7 @@
 
 import http.server
 import socketserver
+import datetime
 
 PORT = 8080
 
@@ -12,7 +13,8 @@ class MyHttpHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Content-type", "text/html")
         self.end_headers()
 
-        html = "Hello from MyHttpHandler";
+        timeStr = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+        html = "<p>Hello from MyHttpHandler: " + timeStr + "</p>"
         self.wfile.write(bytes(html, "utf8"))
 
 with socketserver.TCPServer(("", PORT), MyHttpHandler) as httpd:
